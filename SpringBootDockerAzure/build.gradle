@@ -11,9 +11,10 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
 
 group = 'com.mugilan'
 version = '0.0.1-SNAPSHOT'
@@ -23,6 +24,9 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+	providedRuntime
+}
 
 ext {
 	azureVersion = '2.0.5'
@@ -30,12 +34,14 @@ ext {
 }
 
 dependencies {
-	compile('com.microsoft.azure:azure-active-directory-spring-boot-starter')
-	compile('com.microsoft.azure:azure-keyvault-secrets-spring-boot-starter')
-	compile('com.microsoft.azure:azure-spring-boot')
-	compile('com.microsoft.azure:azure-storage-spring-boot-starter')
-	compile('org.springframework.cloud:spring-cloud-starter-openfeign')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	implementation('org.springframework.boot:spring-boot-starter-data-rest')
+	implementation('org.springframework.boot:spring-boot-starter-web')
+	implementation('com.microsoft.azure:azure-spring-boot')
+	implementation('org.springframework.cloud:spring-cloud-starter-openfeign')
+	implementation('org.springframework.cloud:spring-cloud-starter-zookeeper-config')
+	implementation('org.springframework.kafka:spring-kafka')
+	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
 dependencyManagement {
